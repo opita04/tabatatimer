@@ -1,0 +1,100 @@
+# Overview
+The Tabata Timer application is a web-based tool designed to guide users through predefined High-Intensity Interval Training (HIIT) challenges, specifically focused on jump rope workouts. It solves the problem of needing structured, progressively challenging workout routines by providing daily timed intervals (work/rest) and tracking user progress. It's primarily for individuals, particularly beginners and intermediates, seeking a simple, motivating way to follow a fitness plan and visualize their achievements. Its value lies in its simplicity, guided structure, and persistence of user progress.
+
+# Core Features
+- **Challenge Selection:** Allows users to choose between different predefined multi-day jump rope challenges (e.g., "30 Day Beginner", "15 Min Intermediate").
+    - *Importance:* Provides varied difficulty levels and program lengths.
+    - *How:* A dropdown menu dynamically updates the available workout days and timer parameters based on the selected challenge's hardcoded progression plan.
+- **Daily Workout Timer:** Provides a visual timer guiding users through specific work, rest, and preparation intervals for the selected day's workout.
+    - *Importance:* Ensures users follow the prescribed timings for effective HIIT training.
+    - *How:* JavaScript logic manages countdowns, state transitions (preparing, working, resting, finished), and updates the UI timer display and background color.
+- **Progress Tracking & Persistence:** Enables users to mark individual workout days as complete or incomplete. This status is saved and loaded across sessions.
+    - *Importance:* Allows users to track their journey through the challenge and resume where they left off.
+    - *How:* User progress (a set of completed day numbers for each challenge) is stored in a Firebase Firestore document. JavaScript functions handle reading from and writing to Firestore when days are marked/unmarked or the app initializes.
+- **Visual Feedback:** Provides immediate visual cues about the current timer state (work/rest/prepare/pause) and workout completion.
+    - *Importance:* Enhances user engagement and clarity during the workout.
+    - *How:* Background color changes based on the timer state. Text indicators show the current activity ("JUMPING!", "Resting...", "Prepare..."). The `canvas-confetti` library is used to celebrate challenge completion.
+- **Challenge Completion & Certificate:** Tracks overall completion of all required days within a challenge and provides a downloadable certificate image upon completion.
+    - *Importance:* Offers a sense of accomplishment and tangible reward.
+    - *How:* Logic checks if all non-rest days in the active plan are marked complete in the persisted data. If so, it updates a status message and reveals a download link for a static `.png` certificate file.
+- **Progress Export:** Allows users to download their completion progress for the currently selected challenge as a CSV file.
+    - *Importance:* Provides users with a portable record of their achievements.
+    - *How:* JavaScript generates a CSV string based on the completion status of each day in the selected challenge and triggers a browser download.
+
+# User Experience
+- **User Persona:** Individuals looking for a free, simple, web-based tool to guide their jump rope workouts without needing complex features or account creation (initially). They appreciate clear visual cues and progress tracking.
+- **Key User Flow:**
+    1. User visits the web page.
+    2. (Optional) User selects a challenge from the dropdown.
+    3. User selects a workout day from the dropdown (defaults to the first incomplete day).
+    4. Workout parameters (work/rest/rounds/total time) are displayed.
+    5. User clicks "Start".
+    6. Timer guides user through "Prepare", "Work", and "Rest" intervals with visual feedback.
+    7. User can "Pause" and "Resume" or "Reset" the timer.
+    8. Upon workout completion (or manually), the user clicks "Mark Day Complete".
+    9. Progress is saved to Firebase. The day selector visually updates.
+    10. If the challenge is fully completed, a completion message and certificate download link appear, potentially with confetti.
+    11. (Optional) User clicks "Export Progress" to download a CSV.
+- **UI/UX Considerations:** Simple, clear layout suitable for quick glances during a workout. Large timer display. Obvious controls. Visual differentiation between work/rest states. Progress indication directly in the day selector. Currently relies on browser storage/Firestore persistence without explicit user accounts.
+
+# Technical Architecture
+- **Frontend:** Vanilla HTML, CSS, and JavaScript. Single-page application structure. DOM manipulation for UI updates. No framework used.
+- **State Management:** Client-side JavaScript variables manage timer state, selected challenge/day, and completion status during the session.
+- **Data Persistence:** Firebase Firestore (using v9 Compat SDK) stores completion data. A single document (`userProgress`) likely holds objects mapping challenge IDs (e.g., '30day', '15min') to arrays or sets of completed day numbers.
+- **External Libraries:** `canvas-confetti` for completion effect.
+- **APIs/Integrations:** Firebase Firestore API.
+- **Infrastructure:** Deployed via Firebase Hosting (inferred from file structure). Potentially uses Firebase App Hosting if backend functions exist (though none are apparent in the analyzed JS).
+
+# Development Roadmap
+- **MVP (Current State):**
+    - Core timer logic (prepare, work, rest).
+    - Two hardcoded progression plans/challenges (30day, 15min).
+    - Day selection and display of workout parameters.
+    - Basic progress tracking (mark/unmark complete).
+    - Firebase Firestore integration for saving/loading completion status (single-user context).
+    - Static certificate download on challenge completion.
+    - CSV progress export.
+- **Future Enhancements:**
+    - **Phase 2: User Accounts & Settings**
+        - Firebase Authentication (Email/Password or Google Sign-In).
+        - Store progress per authenticated user.
+        - User settings (e.g., sound preferences, themes) saved to Firestore.
+    - **Phase 3: Customization & Content**
+        - Ability for users to create/edit custom challenges and workouts.
+        - Add more predefined challenges/exercise types.
+        - Admin interface for managing challenges.
+    - **Phase 4: Advanced Features**
+        - Sound cues for transitions.
+        - Workout history/statistics.
+        - Dynamic certificate generation (e.g., with user name/date using Cloud Functions).
+        - PWA (Progressive Web App) features for offline access/installation.
+
+# Logical Dependency Chain (MVP Build Order)
+1.  Basic HTML structure and CSS styling.
+2.  Core timer logic implementation in JavaScript (state machine, intervals).
+3.  Hardcode challenge progression data structures.
+4.  Implement UI display updates based on timer state and selected workout.
+5.  Add Start/Pause/Reset controls.
+6.  Implement day and challenge selection logic.
+7.  Integrate Firebase Firestore SDK.
+8.  Implement saving/loading completion status to/from Firestore.
+9.  Add "Mark Complete" / "Unmark Complete" functionality.
+10. Implement challenge completion logic and certificate link display.
+11. Add progress export feature.
+12. Integrate confetti effect.
+
+# Risks and Mitigations
+- **Scalability:** The current Firestore structure (single document) might not scale well for many users if authentication is added.
+    - *Mitigation:* Redesign Firestore structure to use per-user documents or collections upon implementing authentication.
+- **Data Loss (No Auth):** User progress is currently tied to the browser/device context and the single Firestore document. Clearing browser data or conflicts could cause loss.
+    - *Mitigation:* Implement Firebase Authentication to tie progress securely to user accounts.
+- **Limited Flexibility:** Challenges are hardcoded, preventing user customization.
+    - *Mitigation:* Plan for future enhancements allowing custom challenge creation/editing.
+- **Basic Error Handling:** Frontend JavaScript errors might disrupt the user experience.
+    - *Mitigation:* Implement more robust error handling, logging, and user feedback for network or script errors.
+- **Firebase Costs:** Firestore usage could incur costs if the app gains significant traction (especially with reads/writes per user).
+    - *Mitigation:* Monitor usage, optimize Firestore queries, potentially implement caching.
+
+# Appendix
+- **Libraries Used:** canvas-confetti (https://github.com/catdad/canvas-confetti)
+- **Firebase Services:** Firestore, Hosting. 

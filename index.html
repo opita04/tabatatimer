@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jump Rope - 30 Day Challenge (Beg)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="main-title" style="position: relative; display: inline-block;"> 
+            30 Day Challenge (Beg)
+            <span id="tips-icon-container" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
+                  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
+                </svg>
+                <span id="tips-tooltip" class="tooltip-text">
+                    Tips for All Levels<br><br>
+                    • Surface: Jump on shock-absorbing surfaces like gym mats or wooden floors to reduce joint impact.<br>
+                    • Footwear: Wear supportive athletic shoes to cushion your feet.<br>
+                    • Form: Keep your elbows close to your body, use your wrists to turn the rope, and land softly on the balls of your feet.<br>
+                    • Progression: Gradually increase duration and intensity to prevent overuse injuries.<br><br>
+                    Remember, consistency and proper technique are key to maximizing the benefits of jump roping while minimizing the risk of injury.
+                </span>
+            </span>
+        </h1>
+
+        <div id="auth-container" style="position: absolute; top: 10px; right: 10px; text-align: right; font-size: 0.9em; z-index: 10;">
+            <!-- Logged Out View -->
+            <div id="logged-out-view">
+                <button id="google-signin-button" class="small-button">Sign in with Google</button>
+                <button id="email-signin-show-button" class="small-button">Sign in/up with Email</button>
+                <div id="email-form" style="display: none; margin-top: 5px; padding: 10px; border: 1px solid #ccc; background: #f9f9f9; text-align: left;">
+                    <input type="email" id="email-input" placeholder="Email" style="margin-bottom: 5px; width: calc(100% - 12px);"><br>
+                    <input type="password" id="password-input" placeholder="Password" style="margin-bottom: 5px; width: calc(100% - 12px);"><br>
+                    <button id="email-action-button" class="small-button">Sign In</button>
+                    <a href="#" id="signup-toggle" style="font-size: 0.9em; margin-left: 10px; vertical-align: middle;">Need an account? Sign Up</a>
+                    <p id="auth-error" style="color: red; font-size: 0.8em; margin-top: 5px; display: none;"></p> <!-- Error message area -->
+                </div>
+            </div>
+            <!-- Logged In View (Initially Hidden) -->
+            <div id="logged-in-view" style="display: none;">
+                <span id="user-display" style="margin-right: 10px;">Welcome!</span>
+                <button id="signout-button" class="small-button">Sign Out</button>
+                <br> <input type="checkbox" id="sound-toggle" style="margin-top: 5px; vertical-align: middle;"> <label for="sound-toggle" style="font-size: 0.9em;">Enable Sound</label>
+            </div>
+        </div>
+
+        <div id="challenge-selection" class="control-section">
+            <label for="challenge-select">Select Challenge: </label>
+            <select id="challenge-select">
+                <option value="30day" selected>30 Day Challenge (Beg)</option>
+                <option value="15min">15 Min Challenge (Int)</option>
+            </select>
+        </div>
+
+        <div id="day-selection" class="control-section">
+            <label for="day-select">Select Workout Day: </label>
+            <select id="day-select">
+                <!-- Options will be populated by script.js -->
+            </select>
+            <button id="export-button" class="icon-button" title="Export Progress (CSV)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+            </button>
+            <button id="mark-complete-button" class="small-button" disabled>Mark Day Complete</button>
+            <button id="unmark-complete-button" class="small-button" disabled>Unmark Day</button>
+        </div>
+
+        <div id="challenge-status" class="challenge-status-display">
+            <span id="challenge-status-text"></span>
+            <a href="diploma.png" download="JumpRopeChallenge_Diploma.png" id="certificate-download" class="certificate-link" style="display: none;">Download Certificate</a>
+        </div>
+
+        <div id="workout-info">
+            <h2>Today's Workout (Day 1)</h2>
+            <p>Work: <span id="work-duration">30</span> sec</p>
+            <p>Rest: <span id="rest-duration">10</span> sec</p>
+            <p>Rounds: <span id="rounds-total">4</span></p>
+            <p>Total Time: <span id="total-time">02:40</span></p>
+        </div>
+
+        <div id="timer">
+            <div id="status">Press Start</div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clock timer-icon" viewBox="0 0 16 16">
+                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+            </svg>
+            <div id="time-left">00:30</div>
+            <div id="activity-indicator">--</div>
+        </div>
+
+        <div id="controls">
+            <button id="start-button">Start</button>
+            <button id="pause-button" disabled>Pause</button>
+            <button id="reset-button" disabled>Reset</button>
+        </div>
+
+        <!-- We will add Firebase SDK includes here later -->
+        
+    </div>
+
+    <!-- Firebase SDKs (Add these just before your script.js) -->
+    <!-- Use the latest compatible versions -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <!-- Confetti Script -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html> 

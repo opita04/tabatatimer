@@ -1,0 +1,425 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; /* Default background */
+    transition: background-color 0.5s ease;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Ensure H1 has relative positioning and display for icon context */
+h1#main-title {
+    position: relative; 
+    display: inline-block; 
+    /* Remove any fixed height/width if present */
+}
+
+#workout-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #dee2e6;
+}
+
+#workout-info h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #495057;
+}
+
+#workout-info p {
+    margin: 5px 0;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+#workout-info span {
+    font-weight: bold;
+    color: #495057;
+}
+
+#timer {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+#status {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Style for the added clock icon */
+.timer-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    width: 30px;
+    height: 30px;
+    fill: #333;
+}
+
+#time-left {
+    display: block;
+    font-size: 4.5rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.1;
+}
+
+#activity-indicator {
+    font-size: 1rem;
+    margin-top: 15px;
+    color: #6c757d;
+    min-height: 1.5em;
+    font-weight: bold;
+}
+
+/* Optional: Styles for different states */
+#activity-indicator.working {
+    color: #28a745;
+}
+
+#activity-indicator.resting {
+    color: #ffc107;
+}
+
+#controls button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    margin: 0 8px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    min-width: 100px;
+}
+
+#controls button:hover {
+    opacity: 0.9;
+}
+
+#controls button:active {
+    transform: scale(0.98);
+}
+
+#start-button {
+    background-color: #28a745;
+    color: white;
+}
+
+#pause-button {
+    background-color: #ffc107;
+    color: #333;
+}
+
+#reset-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+#controls button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Style for control sections like day selection and buttons */
+.control-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+
+.control-section label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.control-section select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    font-size: 1em;
+    min-width: 150px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Ensure #controls (buttons) also uses control-section styling or similar */
+#controls {
+    padding: 15px;
+}
+
+/* Basic responsiveness */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    #time-left {
+        font-size: 3rem;
+    }
+
+    #status {
+        font-size: 0.9rem;
+    }
+
+    #controls button {
+        padding: 10px 15px;
+        font-size: 1em;
+        margin: 5px;
+        min-width: 80px;
+    }
+
+    #activity-indicator {
+        font-size: 0.9rem;
+    }
+}
+
+/* Styles for the Mark Complete Button */
+#mark-complete-button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #17a2b8;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#mark-complete-button:hover {
+    background-color: #138496;
+}
+
+#mark-complete-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Style for completed day options in dropdown */
+.day-complete-option {
+    font-style: italic;
+    color: #28a745; /* Success green */
+}
+
+/* Style for Challenge Status Display */
+.challenge-status-display {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #28a745; /* Success green */
+    margin-top: 10px;
+    margin-bottom: 15px;
+    min-height: 1.5em; /* Prevent layout shifts */
+}
+
+.challenge-status-display.complete {
+     padding: 10px;
+     border: 2px solid #28a745;
+     border-radius: 5px;
+     background-color: #e9f7ef;
+}
+
+.small-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Icon Button Styles */
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0.2em 0.5em; /* Adjust padding */
+    margin-left: 10px; /* Space from dropdown */
+    cursor: pointer;
+    vertical-align: middle; /* Align with dropdown */
+    display: inline-flex; /* Helps vertical alignment */
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px; /* Optional: slightly rounded */
+    transition: background-color 0.2s ease;
+}
+
+.icon-button svg {
+    /* REMOVE explicit sizing - let HTML/SVG attributes control it */
+}
+
+.icon-button:hover {
+    background-color: #e9ecef; /* Light grey background on hover */
+}
+
+/* Certificate Download Link */
+.certificate-link {
+    display: block; /* Ensure it takes its own line */
+    margin-top: 5px; /* Space from status text */
+    font-size: 0.9em;
+}
+
+.challenge-status-display.complete .certificate-link {
+    /* Styles when challenge is complete */
+}
+
+/* Style for the Unmark Complete Button */
+#unmark-complete-button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffc107; /* Warning yellow */
+    color: #333;
+    transition: background-color 0.3s ease;
+    margin-left: 5px; /* Add space */
+}
+
+#unmark-complete-button:hover {
+    background-color: #e0a800;
+}
+
+#unmark-complete-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Auth Container Styles */
+#auth-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    text-align: right;
+    font-size: 0.85em;
+    z-index: 10;
+}
+
+#auth-container .small-button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+#auth-container #email-form {
+    display: none;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    text-align: left;
+    min-width: 200px; /* Give the form some width */
+    border-radius: 5px;
+}
+
+#auth-container #email-form input {
+    margin-bottom: 8px;
+    width: calc(100% - 22px); /* Adjust width accounting for padding */
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#auth-container #email-form button {
+    margin-right: 5px;
+}
+
+#auth-container #signup-toggle {
+    font-size: 0.9em;
+    margin-left: 10px;
+    vertical-align: middle;
+    color: #007bff;
+    text-decoration: none;
+}
+#auth-container #signup-toggle:hover {
+    text-decoration: underline;
+}
+
+#auth-container #auth-error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 8px;
+    display: none; /* Initially hidden */
+}
+
+#auth-container #logged-in-view span {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#auth-container #logged-in-view input[type="checkbox"] {
+    margin-top: 5px;
+    vertical-align: middle;
+}
+
+#auth-container #logged-in-view label {
+    font-size: 0.9em;
+    vertical-align: middle;
+}
+
+/* Tips Icon and Tooltip Styles */
+#tips-icon-container {
+    display: inline-block; 
+    /* cursor: help; */
+    margin-left: 10px; 
+    vertical-align: middle; 
+}
+
+#tips-icon-container svg {
+    /* SVG styling */
+}
+
+/* NEW: Style for the dedicated tooltip span */
+.tooltip-text {
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    margin-top: 8px;
+    background-color: #333; 
+    color: #fff; 
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 15px; 
+    /* Use default white-space or pre-wrap if needed, not pre-line */
+    width: 280px; 
+    text-align: left; 
+    opacity: 0; 
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10; 
+    pointer-events: none; 
+}
+
+/* NEW: Show the tooltip span on icon container hover */
+#tips-icon-container:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+} 
