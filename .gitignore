@@ -160,4 +160,22 @@ pids
 *.pid.lock
 
 # Cursor specific
-.cursor/workspace/ 
+.cursor/workspace/
+
+# Node modules (if you ever use Node.js)
+node_modules/
+
+# Firebase local emulators
+.firebase/
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log* 
